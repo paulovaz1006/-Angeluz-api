@@ -13,11 +13,13 @@ class TableRegisterCase {
                 category varchar(50) NOT NULL, 
                 date_create DATETIME NOT NULL, 
                 date_valid DATETIME NOT NULL, 
+                address varchar(100) NOT NULL, 
+                number varchar(10) NOT NULL, 
                 id_user int NOT NULL,            
                 date_finish DATETIME,
                 id_angeluz int,
                 status varchar(30) NOT NULL,
-                FOREIGN KEY (id_user) REFERENCES users(id_user),
+                FOREIGN KEY (id_user) REFERENCES users(id_user),              
                 FOREIGN KEY (id_angeluz) REFERENCES users(id_user)
             );`;
 

@@ -17,12 +17,15 @@ class TableRegisterUser {
                 address varchar(100) NOT NULL, 
                 number varchar(10) NOT NULL,
                 district varchar(50) NOT NULL,
+                photo varchar(50),
                 zip_code varchar(8) NOT NULL,
                 city varchar(20) NOT NULL,
                 state varchar(20) NOT NULL,
                 type_user int NOT NULL,
                 password varchar(20) NOT NULL,
-                email varchar(50) NOT NULL
+                email varchar(50) NOT NULL,
+                phone varchar(11) NOT NULL,
+                cellphone varchar(11) NOT NULL
             )`;
 
         this.connection.query(sql, error => {

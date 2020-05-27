@@ -5,6 +5,16 @@ module.exports = app => {
         RegisterUser.getCases(res)
     });
 
+    app.get('/casos/detalhes-do-caso/:id', (req, res) => {
+        const id = req.params.id;
+        RegisterUser.getCaseDetail(id, res)
+    });
+
+    app.get('/meus-casos-angeluz/:id', (req, res) => {
+        const id = req.params.id;
+        RegisterUser.myCasesAngeluz(id, res)
+    });
+
     app.get('/meus-casos/:id', (req, res) => {
         const id = req.params.id;
         RegisterUser.myCases(id, res)
