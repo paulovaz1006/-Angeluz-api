@@ -1,9 +1,46 @@
 const connection = require('../../infra/connection');
 
-class RegisterCase {
+class CaseModel {
+    addCase(data, res) {
+        const sql = 'INSERT INTO cases SET ?';
+
+        connection.query(sql, data, (error) => {
+            if (error) {
+                res.status(400).json(error)
+            } else {
+                res.status(200).json({ data, message: 'Cadastro realizado com sucesso'})
+            }
+        });
+    }
+
+    alterCase(id, data, res) {
+        const sql = 'UPDATE cases SET ? WHERE id_case=?';
+
+        connection.query(sql, [ data, id ] , (error) => {
+            if (error) {
+                res.status(400).json(error)
+            } else {
+                res.status(200).json({ data, message: 'Caso Editado com sucesso'})
+            }
+        });
+    }
+
+    deleteCase(id, res) {
+        const sql = 'DELETE FROM cases WHERE id_case=?';
+
+        connection.query(sql, id, (error) => {
+            if (error) {
+                res.status(400).json(error)
+            } else {
+                res.status(200).json({message: 'Caso deletado'})
+            }
+        });
+    }
+
     getCases(res) {
         const sql = `SELECT DISTINCT 
-		    cases.id_case, 
+            cases.id_case, 
+            cases.id_user,
             cases.status, 
             cases.description, 
             cases.name, 
@@ -78,42 +115,6 @@ class RegisterCase {
             }
         });
     }
-
-    addCase(data, res) {
-        const sql = 'INSERT INTO cases SET ?';
-
-        connection.query(sql, data, (error) => {
-            if (error) {
-                res.status(400).json(error)
-            } else {
-                res.status(200).json({ data, message: 'Cadastro realizado com sucesso'})
-            }
-        });
-    }
-
-    alterCase(id, data, res) {
-        const sql = 'UPDATE cases SET ? WHERE id_case=?';
-
-        connection.query(sql, [ data, id ] , (error) => {
-            if (error) {
-                res.status(400).json(error)
-            } else {
-                res.status(200).json({ data, message: 'Caso Editado com sucesso'})
-            }
-        });
-    }
-
-    deleteCase(id, res) {
-        const sql = 'DELETE FROM cases WHERE id_case=?';
-
-        connection.query(sql, id, (error) => {
-            if (error) {
-                res.status(400).json(error)
-            } else {
-                res.status(200).json({message: 'Caso deletado'})
-            }
-        });
-    }
 }
 
-module.exports = new RegisterCase;
+module.exports = new CaseModel;

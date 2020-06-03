@@ -1,9 +1,7 @@
+const bcrypt = require('bcrypt')
 const connection = require('../../infra/connection');
-const bcrypt = require('bcrypt');
 
-class RegisterUsers {
-    
-
+class UserModel {
     getUser(id, res) {
         const sql = 'SELECT * FROM users WHERE id_user = ?';
 
@@ -14,17 +12,12 @@ class RegisterUsers {
                 res.status(200).json(response)
             }
         });
-    }
+    }   
 
-    async addPassword(password) {
-        const newPassword = await RegisterUsers.generatePassword(password);
-    }
+    async registerUser(user, res) {
+        const sql = 'INSERT INTO users SET ?';        
+        console.log(user.password)    
 
-    registerUser(user, res) {
-        const sql = 'INSERT INTO users SET ?';
-
-        RegisterUsers.addPassword(user.password)
-        
         connection.query(sql, user, (error) => {
             if (error) {
                 if (error.sqlState == 23000) {
@@ -48,12 +41,35 @@ class RegisterUsers {
                 res.status(200).json({message: 'Usuário editado com sucesso!'});
             }
         });
+    }    
+
+    async searchEmail(email) {  
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM users WHERE email= ?`;
+        
+            connection.query(sql, email, (error, user) => {            
+                if (error) {
+                    return reject('Não foi possível encontrar o usuário!');
+                } else {                
+                    return resolve(user);            
+                }
+            });
+        })
     }
 
-    static generatePassword(password) {
-        const costHash = 12;
-        return bcrypt.hash(password, costHash)
+    async searchId(id) {                
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM users WHERE id_user = ?';
+
+            connection.query(sql, id, (error, user) => {
+                if (error) {
+                    return reject('Usuario não encontrado')
+                } else {
+                    return resolve(user)
+                }
+            })
+        });        
     }
 }
 
-module.exports = new RegisterUsers;
+module.exports = new UserModel;

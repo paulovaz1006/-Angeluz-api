@@ -22,7 +22,7 @@ class TableRegisterUser {
                 city varchar(20) NOT NULL,
                 state varchar(20) NOT NULL,
                 type_user int NOT NULL,
-                password varchar(20) NOT NULL,
+                password varchar(260) NOT NULL,
                 email varchar(50) NOT NULL,
                 phone varchar(11) NOT NULL,
                 cellphone varchar(11) NOT NULL
